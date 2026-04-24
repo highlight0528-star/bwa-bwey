@@ -68,31 +68,6 @@
   }
   .altar::before { left: 20px; }
   .altar::after { right: 20px; }
-  .question-box { margin-bottom: 20px; }
-  .question-box label {
-    display: block;
-    color: #ffd77a;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    letter-spacing: 2px;
-  }
-  .question-box input {
-    width: 100%;
-    padding: 12px;
-    background: rgba(255, 230, 180, 0.1);
-    border: 1px solid #b8860b;
-    border-radius: 6px;
-    color: #fff5e0;
-    font-size: 1rem;
-    text-align: center;
-    font-family: inherit;
-  }
-  .question-box input::placeholder { color: #8a7556; }
-  .question-box input:focus {
-    outline: none;
-    border-color: #ffd77a;
-    box-shadow: 0 0 10px rgba(255, 215, 122, 0.4);
-  }
   .stage {
     height: 220px;
     position: relative;
@@ -236,10 +211,6 @@
   <h1>線上擲筊</h1>
   <div class="subtitle">心 誠 則 靈</div>
   <div class="altar">
-    <div class="question-box">
-      <label for="question">請先默念您想請示的問題</label>
-      <input type="text" id="question" placeholder="例如：今日是否適合談生意？" maxlength="50">
-    </div>
     <div class="stage" id="stage">
       <div class="ground"></div>
       <div class="jiao left face-up" id="jiao1">
@@ -264,36 +235,35 @@
   </div>
   <footer>© 電子香｜誠心敬意，線上祈福</footer>
 <script>
-  const stage = document.getElementById('stage');
-  const jiao1 = document.getElementById('jiao1');
-  const jiao2 = document.getElementById('jiao2');
-  const throwBtn = document.getElementById('throwBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const result = document.getElementById('result');
-  const resultName = document.getElementById('resultName');
-  const resultMeaning = document.getElementById('resultMeaning');
-  const resultNote = document.getElementById('resultNote');
-  const history = document.getElementById('history');
-  const question = document.getElementById('question');
+  const stage = document.getElementById("stage");
+  const jiao1 = document.getElementById("jiao1");
+  const jiao2 = document.getElementById("jiao2");
+  const throwBtn = document.getElementById("throwBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const result = document.getElementById("result");
+  const resultName = document.getElementById("resultName");
+  const resultMeaning = document.getElementById("resultMeaning");
+  const resultNote = document.getElementById("resultNote");
+  const history = document.getElementById("history");
   let count = 0;
   let shengCount = 0;
   function interpret(a, b) {
     if (a !== b) {
-      return { type: 'sheng', name: '聖 筊', meaning: '神明應允您的請示！一陰一陽，代表神明對此事給予肯定的答覆，您可安心前行。', note: '※ 傳統上重要事項需連得三聖筊方為確認' };
+      return { type: "sheng", name: "聖 筊", meaning: "神明應允您的請示！一陰一陽，代表神明對此事給予肯定的答覆，您可安心前行。", note: "※ 傳統上重要事項需連得三聖筊方為確認" };
     }
     if (a === true && b === true) {
-      return { type: 'xiao', name: '笑 筊', meaning: '兩筊皆陽。神明笑而不答，可能是問題不夠明確，或您心中已有答案。請重新思考後再請示。', note: '※ 試著把問題問得更具體些' };
+      return { type: "xiao", name: "笑 筊", meaning: "兩筊皆陽。神明笑而不答，可能是問題不夠明確，或您心中已有答案。請重新思考後再請示。", note: "※ 試著把問題問得更具體些" };
     }
-    return { type: 'yin', name: '陰 筊', meaning: '兩筊皆陰。神明不允此事，建議您三思而後行，或另尋其他方向。', note: '※ 心誠則靈，請耐心等候時機' };
+    return { type: "yin", name: "陰 筊", meaning: "兩筊皆陰。神明不允此事，建議您三思而後行，或另尋其他方向。", note: "※ 心誠則靈，請耐心等候時機" };
   }
   function playClack() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       const now = ctx.currentTime;
-      [0, 0.08, 0.18].forEach((t, i) => {
+      [0, 0.08, 0.18].forEach(function(t, i) {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
+        osc.type = "triangle";
         osc.frequency.setValueAtTime(180 - i * 20, now + t);
         gain.gain.setValueAtTime(0.3, now + t);
         gain.gain.exponentialRampToValueAtTime(0.01, now + t + 0.15);
@@ -304,56 +274,47 @@
     } catch(e) {}
   }
   function throwJiao() {
-    if (!question.value.trim()) {
-      question.focus();
-      question.style.borderColor = '#ff6b6b';
-      setTimeout(() => question.style.borderColor = '', 1500);
-      return;
-    }
     throwBtn.disabled = true;
-    result.classList.remove('show');
-    jiao1.classList.remove('face-up', 'face-down');
-    jiao2.classList.remove('face-up', 'face-down');
+    result.classList.remove("show");
+    jiao1.classList.remove("face-up", "face-down");
+    jiao2.classList.remove("face-up", "face-down");
     void stage.offsetWidth;
-    stage.classList.add('throwing');
+    stage.classList.add("throwing");
     const a = Math.random() < 0.5;
     const b = Math.random() < 0.5;
-    setTimeout(() => {
-      jiao1.classList.add(a ? 'face-up' : 'face-down');
-      jiao2.classList.add(b ? 'face-up' : 'face-down');
+    setTimeout(function() {
+      jiao1.classList.add(a ? "face-up" : "face-down");
+      jiao2.classList.add(b ? "face-up" : "face-down");
     }, 900);
-    setTimeout(() => playClack(), 1600);
-    setTimeout(() => {
-      stage.classList.remove('throwing');
+    setTimeout(function() { playClack(); }, 1600);
+    setTimeout(function() {
+      stage.classList.remove("throwing");
       const res = interpret(a, b);
       resultName.textContent = res.name;
       resultMeaning.textContent = res.meaning;
       resultNote.textContent = res.note;
-      result.classList.add('show');
+      result.classList.add("show");
       count++;
-      if (res.type === 'sheng') shengCount++; else shengCount = 0;
-      let msg = `已擲次數：${count}`;
-      if (shengCount > 0) msg += `　｜　連續聖筊：${shengCount}`;
-      if (shengCount >= 3) msg += ' 🎉 三聖筊達成！';
+      if (res.type === "sheng") shengCount++; else shengCount = 0;
+      let msg = "已擲次數：" + count;
+      if (shengCount > 0) msg += "　｜　連續聖筊：" + shengCount;
+      if (shengCount >= 3) msg += " 🎉 三聖筊達成！";
       history.textContent = msg;
       throwBtn.disabled = false;
     }, 1850);
   }
   function reset() {
-    question.value = '';
     count = 0;
     shengCount = 0;
-    history.textContent = '已擲次數：0';
-    result.classList.remove('show');
-    jiao1.classList.remove('face-down');
-    jiao1.classList.add('face-up');
-    jiao2.classList.remove('face-down');
-    jiao2.classList.add('face-up');
-    question.focus();
+    history.textContent = "已擲次數：0";
+    result.classList.remove("show");
+    jiao1.classList.remove("face-down");
+    jiao1.classList.add("face-up");
+    jiao2.classList.remove("face-down");
+    jiao2.classList.add("face-up");
   }
-  throwBtn.addEventListener('click', throwJiao);
-  resetBtn.addEventListener('click', reset);
-  question.addEventListener('keydown', e => { if (e.key === 'Enter') throwJiao(); });
+  throwBtn.addEventListener("click", throwJiao);
+  resetBtn.addEventListener("click", reset);
 </script>
 </body>
 </html>
